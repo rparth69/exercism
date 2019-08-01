@@ -1,163 +1,124 @@
 require_relative "torrentmodule"
 
 class Unit
-  def initialize(unit,phase1)
+  def initialize(unit,_phase)
     @unit = unit
-    @phase = phase1.to_i
-  end   
-end 
-#======================== Unit class finish ======================================================
-class Category < Unit
-
-  include Category_select
-  #================================TMP====================================
-  def TMP()
-  
-    total = @unit * 5.00 * 30  + 25
-    pay = total.to_i
-    puts "Your Total Bill Payment:  #{pay}"  
-  end
-#===============================HTMD2====================================
-  def HTMD2()
-  
-    total = @unit * 4.00  * 6.00 + 225
-    pay = total.to_i
-    puts "Your Total Bill Payment:  #{pay}"
-
-  end
-#===============================HTMD3====================================
-  def HTMD3()
-  
-    total = @unit * 6.95 * 0.60 + 25  + 225
-    pay = total.to_i
-    puts "Your Total Bill Payment:  #{pay}"
+    @phase = _phase.to_i
 
   end
 end
-#================================================================================
-class Putsline
-  def putsline()
-
-    puts "__________________________________________________________________________________________"         
-    phase1 = 0
-
+#======================== Unit class finish ======================================================
+class Category < Unit
+  include Category_select
+end
+#==========================Displaycategory class======================================================
+class Displaycategory
+  def putsline
+    puts "__________________________________________________________________________________________"
   end
-  def chosscategory()
-   category = ["GLP   : General Lighting Purpose",
-               "RGP   : Residential General Purpose",
-               "BPL   : Below Poverty Line",
-               "NRGP  : Low Tension Service for Commercial and Industrial Purpose",
-               "LTP   :(AG) Agriculture Service",
-               "LTMD1 : Low Tension Maximum Demand for Residential Purpose",
-               "LTMD2 : Low Tension Maximum Demand for other than residential purpose",
-               "SL    : Low Tension Tension Street Light Service",
-               "TMP   : Low Tension Temporary Supply",
-               "HTMD1 : High Tension Maximum Demand",
-               "HTMD2 : High Tension Water and Sewage Pumping Stations run by AMC",
-               "HTMD3 : High Tension Maximum Demand Temporary Supply"]
-    puts category 
+  def chosse_category
+   category = ["GLP   : General Lighting Purpose.",
+               "RGP   : Residential General Purpose.",
+               "BPL   : Below Poverty Line.",
+               "NRGP  : Low Tension Service for Commercial and Industrial Purpose.",
+               "LTP   :(AG) Agriculture Service.",
+               "LTMD1 : Low Tension Maximum Demand for Residential Purpose.",
+               "LTMD2 : Low Tension Maximum Demand for other than residential purpose.",
+               "SL    : Low Tension Tension Street Light Service.",
+               "TMP   : Low Tension Temporary Supply.",
+               "HTMD1 : High Tension Maximum Demand.",
+               "HTMD2 : High Tension Water and Sewage Pumping Stations run by AMC.",
+               "HTMD3 : High Tension Maximum Demand Temporary Supply."]
+    puts category
   end
 end
 # #=================================    MAIN    =======================================================
-  puts "__________________________________________________________________________________________"
-  puts "____________________________Torrent Power choose CATEGORY_________________________________"
-  puts "__________________________________________________________________________________________"
-  
-  chosse = Putsline.new().chosscategory()
+puts "____________________________Torrent Power choose CATEGORY_________________________________"
+puts "__________________________________________________________________________________________"
 
-  puts "__________________________________________________________________________________________"
-  puts "__________________________________________________________________________________________"
+Displaycategory.new().chosse_category
 
-  print "            PLEASE  CHOOSE CATEGORY:"    
-  cate = gets.chomp.upcase
+print "PLEASE  CHOOSE CATEGORY:"
+cate = gets.chomp.upcase
 
-  print "            PLEASE  Enter unit:".upcase
-  unit = gets.chomp.to_i
+print "PLEASE  Enter unit:".upcase
+unit = gets.chomp.to_i
 
-if cate == "GLP"
-
-  print "            PLEASE  Single Phase Or Three Phase:".upcase
+case cate 
+when "GLP"
+  print "PLEASE  Single Phase Or Three Phase:".upcase
   phase = gets.chomp.upcase
   puts "__________________________________________________________________________________________"
 
-  if phase == "SINGLE" 
-    phase1 = 0 + 25
-                   
-  elsif phase == "THREE"
-      
-    phase1 = 0  + 65
-  else 
-    puts "please write perfact" 
-    end
-  choss = Category.new(unit,phase1).GLP()
-  
-elsif cate == "RGP"
+  case phase 
+  when "SINGLE"
+    _phase = 0 + 25
 
-  print "            PLEASE  Single Phase Or Three Phase:".upcase
-  phase = gets.chomp.upcase
-  puts "__________________________________________________________________________________________"
+  when "THREE"
+    _phase = 0  + 65
 
-  if phase == "SINGLE" 
-    phase1 = 0 + 25
-                   
-  elsif phase == "THREE"
-      
-    phase1 = 0  + 65
-  else 
-    puts "please write perfact" 
+  else
+    puts "please write perfact"
   end
-  choss = Category.new(unit,phase1).RGP()
+  Category.new(unit,_phase).general_lighting_purpose(unit,_phase)
+
+when "RGP"
+  print "PLEASE  Single Phase Or Three Phase:".upcase
+  phase = gets.chomp.upcase
+  puts "__________________________________________________________________________________________"
   
-elsif cate == "BPL"
-   
-  put = Putsline.new().putsline()         
-  choss = Category.new(unit,phase1).BPL()
+  case phase 
+  when "SINGLE"
+    _phase = 0 + 25
 
-elsif cate == "NRGP"
+  when "THREE"
+    _phase = 0  + 65
 
-  put = Putsline.new().putsline()
-  choss = Category.new(unit,phase1).NRGP()         
+  else
+    puts "please write perfact"
+  end
+  Category.new(unit,phase1).residential_general_purpose(unit,_phase)
 
-elsif cate == "LTP"
-   
-  put = Putsline.new().putsline()     
-  choss = Category.new(unit,phase1).LTP()             
+when "BPL"
+  Displaycategory.new().putsline
+  Category.new(unit,_phase).below_poverty_line(unit)
 
-elsif cate == "LTMD1"
-  
-  put = Putsline.new().putsline()
-  choss = Category.new(unit,phase1).LTMD1()            
+when "NRGP"
+  Displaycategory.new().putsline
+  Category.new(unit,_phase).commercial_industrial_purpose(unit)
 
-elsif cate == "LTMD2"
-  
-  put = Putsline.new().putsline()     
-  choss = Category.new(unit,phase1).LTMD2()           
+when "LTP" 
+  Displaycategory.new().putsline
+  Category.new(unit,_phase).ltp_agriculture_service(unit)
 
-elsif cate == "SL"
-   
-  put = Putsline.new().putsline()     
-  choss = Category.new(unit,phase1).SL()           
+when "LTMD1" 
+  Displaycategory.new().putsline
+  Category.new(unit,_phase).low_tension_maximum_demand_one(unit)
 
-elsif cate == "TMP"
-     
-  put = Putsline.new().putsline()
-  choss = Category.new(unit,phase1).TMP() 
+when "LTMD2" 
+  Displaycategory.new().putsline
+  Category.new(unit,_phase).low_tension_maximum_demand_two(unit)
 
-elsif cate == "HTMD1" 
-      
-  put = Putsline.new().putsline()
-  choss = Category.new(unit,phase1).HTMD1() 
+when "SL"
+  Displaycategory.new().putsline
+  Category.new(unit,_phase).street_light_service(unit)
 
-elsif cate == "HTMD2"
-        
-  put = Putsline.new().putsline()
-  choss = Category.new(unit,phase1).HTMD2()                         
+when "TMP" 
+  Displaycategory.new().putsline
+  Category.new(unit,_phase).tension_temporary_supply(unit)
 
-elsif cate == "HTMD3"
-  
-  put = Putsline.new().putsline()
-  choss = Category.new(unit,phase1).HTMD3()
+when "HTMD1"
+  Displaycategory.new().putsline
+  Category.new(unit,_phase).high_tension_maximum_demand_one(unit)
 
-else 
+when "HTMD2"
+  Displaycategory.new().putsline
+  Category.new(unit,_phase).high_tension_maximum_demand_two(unit)
+
+when "HTMD3"
+  Displaycategory.new().putsline
+  Category.new(unit,_phase).high_tension_maximum_demand_three(unit)
+
+else
   puts "*CHOOSE perfact category".upcase
 end
